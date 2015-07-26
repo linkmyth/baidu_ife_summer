@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Note Manage</title>
+	<link rel="shortcut icon" href="notebook.ico">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="content-wrapper">
+		<div class="note-list-wrapper">
+			<div class="note-list-header">
+				<h2>笔记本</h2>
+			</div>
+			<div class="note-list-body">
+				<ul class="note-list">
+				</ul>
+				<button class="add-note"></button>
+			</div>
+			<div class="note-list-footer">
+				<button class="delete-note"></button>
+			</div>
+		</div>
+		<div class="article-list-wrapper">
+			<div class="article-list-header">
+				<h2>笔记</h2>
+				<button class="add-article">新建笔记</button>
+			</div>
+			<ul class="article-list">
+			</ul>
+		</div>
+		<div class="article-preview-wrapper">
+			<div class="article-preview-header">
+				<h2></h2>
+				<div class="button-wrapper">
+					<button class="edit-article">编辑</button>
+					<button class="delete-article">删除</button>
+				</div>
+			</div>
+			<div class="article-preview-content">
+			</div>
+		</div>
+		<div class="article-edit-wrapper">
+			<div class="article-edit-header">
+				<form>
+					<input type="text" class="article-title" placeholder="请输入标题...">
+					<div class="button-wrapper">
+						<button class="save-article">保存</button>
+						<button class="cancel-article">取消</button>
+					</div>
+				</form>
+			</div>
+			<textarea class="article-edit-content" placeholder="请输入文本..."></textarea>
+		</div>
+		<div class="add-note-mask">
+			<div class="add-note-form">
+				<h3>新建笔记本</h3>
+				<form>
+					<p>
+						<label for="note-title">标题</label><!--
+					 --><input type="text" id="note-title" class="note-title">
+					</p>
+					<div class="button-wrapper">
+						<button class="confirm-note disabled-btn" disabled="disabled">确认</button>
+						<button class="cancel-note">取消</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="js/marked.js"></script>
+	<script src="js/util.js"></script>
+	<script>
+	window.onload = function() {
+		if (!read_data("linkmythNotes")) {
+			write_data("linkmythNotes", [{noteId: 1, noteName: "默认笔记本", articleId: [1]}]);
+		}
+		if (!read_data("linkmythArticles")) {
+			write_data("linkmythArticles", [{articleId: 1, articleTitle: "使用说明", articleContent: "- 笔记本与笔记均支持新增、删除、修改\n - 功能没找到请到处hover一下"}]);
+		}
+		display_notes();
+		addEventListener(getElementsByClassName("add-note")[0], "click", addNoteHandler);
+		addEventListener(getElementsByClassName("delete-note")[0], "click", deleteNoteHandler);
+		addEventListener(getElementsByClassName("note-title")[0], "input", noteTitleChangeHandler);
+		addEventListener(getElementsByClassName("confirm-note")[0], "click", confirmNoteHandler);
+		addEventListener(getElementsByClassName("cancel-note")[0], "click", cancelNoteHandler);
+		addEventListener(getElementsByClassName("note-list")[0], "click", noteListClickHandler);
+		addEventListener(getElementsByClassName("add-article")[0], "click", addArticleHandler);
+		addEventListener(getElementsByClassName("cancel-article")[0], "click", cancelArticleHandler);
+		addEventListener(getElementsByClassName("save-article")[0], "click", saveArticleHandler);
+		addEventListener(getElementsByClassName("article-list")[0], "click", articleListClickHandler);
+		addEventListener(getElementsByClassName("article-preview-header")[0], "mouseenter", enterArticleHeaderHandler);
+		addEventListener(getElementsByClassName("article-preview-header")[0], "mouseleave", leaveArticleHeaderHandler);
+		addEventListener(getElementsByClassName("edit-article")[0], "click", editArticleHandler);
+		addEventListener(getElementsByClassName("delete-article")[0], "click", deleteArticleHandler);
+	}
+	</script>
+</body>
+</html>
